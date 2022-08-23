@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<script src="https://d3js.org/d3.v7.min.js"></script>
+    <header class="header">
+        <div class="header__text-box">
+            <h1 class="heading-primary">
+                CASTRAS LÖNEKALKYL
+            </h1>
+            <h2 class="heading-secondary">
+                Räkna ut din lön baserat på vad Castra fakturerar kund.
+            </h2>
+        </div>
+    </header>
+    <main>
+        <section class="section-chart">
+            <div class="chart-box">
+                <div class="chart"></div>
+                <div class="chart__description">
+                    <div class="chart__legend">
+                        <div class="legend__box">
+                            <h3 class="chart__description-label label__colored label__colored-2">Pengar till potten per månad</h3>
+                            <p class="chart__description-value wage_pot">0</p>
+                        </div>
+                        <div class="info">
+                            <span class="info__icon"></span>
+                            <div class="info__tooltip">
+                                <h3 class="info__header">Bruttokontot</h3>
+                                <p class="info__body">
+                                    Av det totala fakturerade beloppet tillfaller 70% ditt bruttokonto, 30% går till Castra.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart__legend">
+                        <div class="legend__box">
+                            <h3 class="chart__description-label label__colored label__colored-1">Din lön</h3>
+                            <p class="chart__description-value salary">0</p>
+                        </div>
+                        <div class="info">
+                            <span class="info__icon"></span>
+                            <div class="info__tooltip">
+                                <h3 class="info__header">Din bruttolön, innan inkomstskatt</h3>
+                                <p class="info__body">
+                                    Din maximala lön du kan ta ut, efter att sociala avgifter (arbetsgivaravgift) och semestersparande
+                                    dragits av.
+
+                                    År 2022 ligger arbetsgivaravgiften på 31,42%.
+
+                                    Sociala avgifter dras ej av från hela beloppet som tillfaller bruttokontot, utan endast från
+                                    den lön du tar ut.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart__legend">
+                        <div class="legend__box">
+                            <h3 class="chart__description-label label__colored label__colored-4">Semesterspar per månad</h3>
+                            <p class="chart__description-value vacation_monthly">0</p>
+                        </div>
+                        <div class="info">
+                            <span class="info__icon"></span>
+                            <div class="info__tooltip">
+                                <h3 class="info__header">Semestersparande per månad</h3>
+                                <p class="info__body">
+                                    Pengar som lagts undan för att finansiera dina semesterdagar.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section-chart-controllers">
+            <div class="controllers-box">
+                <div class="controller-row row" id="hours">
+                    <div class="col-1-of-3">
+                        <h3 class="chart__description-label label__colored label__colored-3">Antal timmar per månad</h3>
+                    </div>
+                    <div class="col-1-of-3">
+                        <input type="range" class="calc__slider">
+                    </div>
+                    <div class="col-1-of-3">
+                        <span class="calc__input-group">
+                            <!-- <span class="calc__input-group-addon">SEK</span> -->
+                            <input type="number" class="calc__input" placeholder="timmar">
+                            <div class="info-box">
+                                <div class="info">
+                                    <span class="info__icon"></span>
+                                    <div class="info__tooltip">
+                                        <h3 class="info__header">Antal timmar per månad</h3>
+                                        <p class="info__body">
+                                            En månad snittar ungefär 168 arbetstimmar, heltid.
+
+                                            Den kortaste månaden innehar 144-152 arbetstimmar. Den längsta 176-184 timmar.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="controller-row row" id="billed_hourly">
+                    <div class="col-1-of-3">
+                        <h3 class="chart__description-label label__colored label__colored-2">Fakturerad timlön</h3>
+                    </div>
+                    <div class="col-1-of-3">
+                        <input type="range" class="calc__slider">
+                    </div>
+                    <div class="col-1-of-3">
+                        <span class="calc__input-group">
+                            <span class="calc__input-group-addon">SEK</span>
+                            <input type="number" class="calc__input" placeholder="Lön">
+                            <div class="info-box">
+                                <div class="info">
+                                    <span class="info__icon"></span>
+                                    <div class="info__tooltip">
+                                        <h3 class="info__header">Fakturerad timlön</h3>
+                                        <p class="info__body">
+                                            Det som Castra fakturerar kund, per arbetad timme.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="controller-row row" id="vacation_rate">
+                    <div class="col-1-of-3">
+                        <h3 class="chart__description-label label__colored label__colored-4">Spara till semester</h3>
+                    </div>
+                    <div class="col-1-of-3">
+                        <input type="range" class="calc__slider">
+                    </div>
+                    <div class="col-1-of-3">
+                        <span class="calc__input-group">
+                            <input type="number" class="calc__input" placeholder="vacation">
+                            <span class="calc__input-group-addon">%</span>
+                            <div class="info-box">
+                                <div class="info">
+                                    <span class="info__icon"></span>
+                                    <div class="info__tooltip">
+                                        <h3 class="info__header">Semester</h3>
+                                        <p class="info__body">
+                                            12% motsvarar 25 dagar semester, 15% motsvarar 30 dagar.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="section-chart-controllers__footer">
+                <button class="btn btn-link btn__toggle-modal">
+                    * Här kan vi lägga in mer text
+                </button>
+                <button class="btn btn-secondary btn__reset">
+                    Reset
+                </button>
+            </div>
+        </section>
+    </main>
+    <div class="dialog">
+        <div class="modal-backdrop"></div>
+        <div class="modal">
+            <div class="modal__header">
+                <span class="modal__header__text">Lorem ipsum:</span>
+                <span class="modal__header__close btn__toggle-modal">&Cross;</span>
+            </div>
+            <div class="modal__content">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <h2 class="modal__content-header">
+                    Lorem ipsum:
+                </h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p>
+                    The payment amount does not include title, license or registration fees.
+                    Payment amounts may be different due to various factors such as fees, specials,
+                    rebates, term, down payment, trade-in, applicable tax rate, and creditworthiness of
+                    the customer. Please contact your selected dealer or lender for program details and actual terms.
+                </p>
+                <h2 class="modal__content-header">
+                    Lorem ipsum:
+                </h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn-secondary btn_close btn__toggle-modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</html>
