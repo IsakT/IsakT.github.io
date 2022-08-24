@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<script src="https://d3js.org/d3.v7.min.js"></script>
+    <header class="header">
+        <div class="header__text-box">
+            <h1 class="heading-primary">
+                CASTRAS LÖNEKALKYL
+            </h1>
+            <h2 class="heading-secondary">
+                Räkna ut din lön utifrån vad Castra fakturerar kund.
+            </h2>
+        </div>
+    </header>
+    <main>
+        <section class="section-chart">
+            <div class="chart-box">
+                <div class="chart"></div>
+                <div class="chart__description">
+                    <div class="chart__legend">
+                        <div class="legend__box">
+                            <h3 class="chart__description-label">
+                                Castra fakturerar per månad
+                                <span class="label--sub"></span>
+                            </h3>
+                            <p class="chart__description-value total_cost">31,550</p>
+                        </div>
+                        <div class="info">
+                            <span class="info__icon"></span>
+                            <div class="info__tooltip">
+                                <h3 class="info__header">Castra fakturerar per månad</h3>
+                                <p class="info__body">
+                                    Castra fakturerar per månad
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart__legend">
+                        <div class="legend__box">
+                            <h3 class="chart__description-label">
+                                Pengar till potten per månad
+                                <span class="label--sub"></span>
+                            </h3>
+                            <p class="chart__description-value wage_pot">31,550</p>
+                        </div>
+                        <div class="info">
+                            <span class="info__icon"></span>
+                            <div class="info__tooltip">
+                                <h3 class="info__header">Bruttokontot</h3>
+                                <p class="info__body">
+                                    70% av det fakturerade beloppet tillfaller ditt bruttokonto
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart__legend">
+                        <div class="legend__box">
+                            <h3 class="chart__description-label label__colored-4">Maximalt möjligt löneuttag</h3>
+                            <p class="chart__description-value max_salary">0</p>
+                        </div>
+                        <div class="info">
+                            <span class="info__icon"></span>
+                            <div class="info__tooltip">
+                                <h3 class="info__header">Max lön</h3>
+                                <p class="info__body">
+                                    Vad du potentiellt skulle kunna ta ut i lön (inkl. obligatorisk 12% semesterspar), 
+                                    förutsatt att ingenting annat förutom lön dras från potten.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart__legend">
+                        <div class="legend__box">
+                            <h3 class="chart__description-label label__colored label__colored-8">Din lön per månad</h3>
+                            <p class="chart__description-value monthly_salary">45000</p>
+                        </div>
+                        <div class="info">
+                            <span class="info__icon"></span>
+                            <div class="info__tooltip">
+                                <h3 class="info__header">Ditt löneuttag</h3>
+                                <p class="info__body">
+                                    Lönen som du väljer att ta ut. Tänk på att gränsen för statlig inkomstskatt ligger på runt 45000kr per månad. Lön som du väljer att du ta ut utöver denna gräns kommer att bli ytterligare beskattad med 20% utöver ordinarie inkomstskatt.
+
+                                    Du betalar endast inkomstskatt på denna summan, precis som på en vanlig lön. Sociala avgifter är redan avdraget.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart__legend">
+                        <div class="legend__box">
+                            <h3 class="chart__description-label label__colored label__colored-6">Social avgifter per månad</h3>
+                            <p class="chart__description-value social_tax_monthly">0</p>
+                        </div>
+                        <div class="info">
+                            <span class="info__icon"></span>
+                            <div class="info__tooltip">
+                                <h3 class="info__header">Sociala avgifter</h3>
+                                <p class="info__body">
+                                    År 2022 ligger arbetsgivaravgiften på 31,42%.
+
+                                    Sociala avgifter för pensionssparande på 22% räknas även in här.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart__legend">
+                        <div class="legend__box">
+                            <h3 class="chart__description-label label__colored label__colored-5">Semesterspar per månad</h3>
+                            <p class="chart__description-value vacation_monthly">0</p>
+                        </div>
+                        <div class="info">
+                            <span class="info__icon"></span>
+                            <div class="info__tooltip">
+                                <h3 class="info__header">Semestersparande per månad</h3>
+                                <p class="info__body">
+                                    Pengar som lagts undan för att finansiera dina semesterdagar
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart__legend">
+                        <div class="legend__box">
+                            <h3 class="chart__description-label label__colored label__colored-3">Sparas till potten per månad</h3>
+                            <p class="chart__description-value wage_pot_remaining">0</p>
+                        </div>
+                        <div class="info">
+                            <span class="info__icon"></span>
+                            <div class="info__tooltip">
+                                <h3 class="info__header">Bruttokontot</h3>
+                                <p class="info__body">
+                                    Resterande summa för tillfaller ditt bruttokonto efter löneuttag, semesterspar, sociala avgifter och de 30% som tillfaller Castra.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section-chart-controllers">
+            <div class="controllers-box">
+                <div class="controller-row row" id="hours">
+                    <div class="col-1-of-3">
+                        <h3 class="chart__description-label label__colored label__colored-3">Antal timmar per månad</h3>
+                    </div>
+                    <div class="col-1-of-3">
+                        <input type="range" class="calc__slider">
+                    </div>
+                    <div class="col-1-of-3">
+                        <span class="calc__input-group">
+                            <!-- <span class="calc__input-group-addon">SEK</span> -->
+                            <input type="number" class="calc__input" placeholder="timmar">
+                            <div class="info-box">
+                                <div class="info">
+                                    <span class="info__icon"></span>
+                                    <div class="info__tooltip">
+                                        <h3 class="info__header">Antal timmar per månad</h3>
+                                        <p class="info__body">
+                                            En månad snittar ungefär 168 arbetstimmar, heltid.
+
+                                            Den kortaste månaden innehar 144-152 arbetstimmar. Den längsta 176-184 timmar, beroende på år.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="controller-row row" id="billed_hourly">
+                    <div class="col-1-of-3">
+                        <h3 class="chart__description-label label__colored label__colored-3">Fakturerad timlön</h3>
+                    </div>
+                    <div class="col-1-of-3">
+                        <input type="range" class="calc__slider">
+                    </div>
+                    <div class="col-1-of-3">
+                        <span class="calc__input-group">
+                            <input type="number" class="calc__input" placeholder="Lön">
+                            <span class="calc__input-group-addon">SEK</span>
+                            <div class="info-box">
+                                <div class="info">
+                                    <span class="info__icon"></span>
+                                    <div class="info__tooltip">
+                                        <h3 class="info__header">Fakturerad timlön</h3>
+                                        <p class="info__body">
+                                            Det som Castra fakturerar kund, per arbetad timme.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="controller-row row" id="monthly_salary">
+                    <div class="col-1-of-3">
+                        <h3 class="chart__description-label label__colored label__colored-8">Löneuttag (mån)</h3>
+                    </div>
+                    <div class="col-1-of-3">
+                        <input type="range" class="calc__slider">
+                    </div>
+                    <div class="col-1-of-3">
+                        <span class="calc__input-group">
+                            <input type="number" class="calc__input" placeholder="Lön">
+                            <span class="calc__input-group-addon">SEK</span>
+                            <div class="info-box">
+                                <div class="info">
+                                    <span class="info__icon"></span>
+                                    <div class="info__tooltip">
+                                        <h3 class="info__header">Löneuttag</h3>
+                                        <p class="info__body">
+                                            Lönen som du väljer att ta ut. Tänk på att gränsen för statlig inkomstskatt ligger på runt 45000kr per månad. Lön som du väljer att du ta ut utöver denna gräns kommer att bli beskattad runt 50%.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="controller-row row" id="bonus">
+                    <div class="col-1-of-3">
+                        <h3 class="chart__description-label label__colored label__colored-2">Bonus (mån)</h3>
+                    </div>
+                    <div class="col-1-of-3">
+                        <input type="range" class="calc__slider">
+                    </div>
+                    <div class="col-1-of-3">
+                        <span class="calc__input-group">
+                            <input type="number" class="calc__input" placeholder="Bonus">
+                            <span class="calc__input-group-addon">SEK</span>
+                            <div class="info-box">
+                                <div class="info">
+                                    <span class="info__icon"></span>
+                                    <div class="info__tooltip">
+                                        <h3 class="info__header">Bonus från bruttokontot</h3>
+                                        <p class="info__body">
+                                            Extra tillslag på din lön, som belastar ditt bruttokonto.
+
+                                            Du behöver inte spara 12% till semesterkontot av vad du tar ut i bonus.
+
+                                            Tänk på att du alltid måste ha pengar kvar på bruttokontot för att täcka dina semesterdagar.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="controller-row row" id="vacation_days">
+                    <div class="col-1-of-3">
+                        <h3 class="chart__description-label label__colored label__colored-5">Semesterdagar (år)</h3>
+                    </div>
+                    <div class="col-1-of-3">
+                        <input type="range" class="calc__slider">
+                    </div>
+                    <div class="col-1-of-3">
+                        <span class="calc__input-group">
+                            <input type="number" class="calc__input" placeholder="vacation">
+                            <span class="calc__input-group-addon">dag</span>
+                            <div class="info-box">
+                                <div class="info">
+                                    <span class="info__icon"></span>
+                                    <div class="info__tooltip">
+                                        <h3 class="info__header">Semester</h3>
+                                        <p class="info__body">
+                                            Du bör åsidosätta 12% av din lön varje månad till semester.
+
+                                            Ett år har ungefär 253 arbetsdagar. Du tjänar inte in "semester" under dina semesterdagar som konsult.
+
+                                            Desto fler semesterdagar du tar ut per år, desto mer måste du spara per månad.
+
+                                            Exempel: Om du tar ut hälften av dagarna (253 / 2) i semester, så har du bara 126 arbetsdagar på dig
+                                            att jobba in din semester. Du måste då lägga undan motsvarande 100% av din lön per månad till semester.
+
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="controller-row row" id="pension">
+                    <div class="col-1-of-3">
+                        <h3 class="chart__description-label label__colored label__colored-9">Pension (mån)</h3>
+                    </div>
+                    <div class="col-1-of-3">
+                        <input type="range" class="calc__slider">
+                    </div>
+                    <div class="col-1-of-3">
+                        <span class="calc__input-group">
+                            <input type="number" class="calc__input" placeholder="Pension">
+                            <span class="calc__input-group-addon">SEK</span>
+                            <div class="info-box">
+                                <div class="info">
+                                    <span class="info__icon"></span>
+                                    <div class="info__tooltip">
+                                        <h3 class="info__header">Pension från bruttokontot</h3>
+                                        <p class="info__body">
+                                            Pensionssparande varje månad som tas direkt från bruttokontot.
+
+                                            Pensionssparande beskattas med 22%.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="controller-row row" id="expenses">
+                    <div class="col-1-of-3">
+                        <h3 class="chart__description-label label__colored label__colored-10">Fasta utgifter (mån)</h3>
+                    </div>
+                    <div class="col-1-of-3">
+                        <input type="range" class="calc__slider">
+                    </div>
+                    <div class="col-1-of-3">
+                        <span class="calc__input-group">
+                            <input type="number" class="calc__input" placeholder="Utgifter">
+                            <span class="calc__input-group-addon">SEK</span>
+                            <div class="info-box">
+                                <div class="info">
+                                    <span class="info__icon"></span>
+                                    <div class="info__tooltip">
+                                        <h3 class="info__header">Fasta utgifter</h3>
+                                        <p class="info__body">
+                                            Utgifter som tas från bruttokontot, så som car leasing, mobilabonnemang, friskvård, försäkringar, osv.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="section-chart-controllers__footer">
+                <button class="btn btn-link btn__toggle-modal">
+                    * Här kan vi lägga in mer text
+                </button>
+                <button class="btn btn-secondary btn__reset">
+                    Reset
+                </button>
+            </div>
+        </section>
+    </main>
+    <div class="dialog">
+        <div class="modal-backdrop"></div>
+        <div class="modal">
+            <div class="modal__header">
+                <span class="modal__header__text">Lorem ipsum:</span>
+                <span class="modal__header__close btn__toggle-modal">&Cross;</span>
+            </div>
+            <div class="modal__content">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <h2 class="modal__content-header">
+                    Lorem ipsum:
+                </h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p>
+                    The payment amount does not include title, license or registration fees.
+                    Payment amounts may be different due to various factors such as fees, specials,
+                    rebates, term, down payment, trade-in, applicable tax rate, and creditworthiness of
+                    the customer. Please contact your selected dealer or lender for program details and actual terms.
+                </p>
+                <h2 class="modal__content-header">
+                    Lorem ipsum:
+                </h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn-secondary btn_close btn__toggle-modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</html>
