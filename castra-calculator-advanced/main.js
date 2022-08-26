@@ -96,53 +96,26 @@ var inputValues = {
             this._value = 820;
         }
     },
-    vacation: {
-        // min: 0,
-        // max: 112,
-        // step: 1,
-        _value: 0,
-        get value() {
-            return parseFloat(this._value);
-        },
-        set value(val) {
-            this._value = val;
-        },
-        reset: function () {
-            this._value = 0.12;
-        }
-    },
     vacation_days: {
-        min: 27,
+        min: 25,
         max: 200,
         step: 1,
-        _value: 27,
+        _value: 25,
         get value() {
-            const vacation_days = this._value;
-            const maximum_working_days = 253;
-            const vacation_rate = vacation_days / (maximum_working_days - vacation_days);
-
-            inputValues.vacation.value = vacation_rate;
             return this._value;
         },
         set value(val) {
             this._value = val;
-            const vacation_days = val;
-            const maximum_working_days = 253;
-            const vacation_rate = vacation_days / (maximum_working_days - vacation_days);
-
-            inputValues.vacation.value = vacation_rate;
         },
         reset: function () {
-            this._value = 27;
+            this._value = 25;
         }
     }
 };
 
-inputValues.vacation.value = 0.12;
-
 var legendData = {
   get vacation_monthly() {
-    return inputValues.monthly_salary.value * inputValues.vacation.value;
+    return vacation_save_per_month();
   },
   get monthly_salary() {
     return parseInt(inputValues.monthly_salary.value) + parseInt(inputValues.bonus.value);
@@ -173,7 +146,7 @@ var legendData = {
     return hourly;
   },
   get max_salary(){
-    const magic_number = 0.697252824 // don't ask, just accept it
+    const magic_number = 0.6857267297 // don't ask, just accept it
     const max_salary = this.wage_pot * magic_number;
     inputValues.monthly_salary.max = max_salary;
     return max_salary
@@ -416,6 +389,24 @@ function draw() {
             var value = legendData[valueWrapper.classList[1]];
             valueWrapper.textContent = Math.round(value);
         })
+}
+
+function vacation_save_per_month(){
+    const salary = parseInt(inputValues.monthly_salary.value);
+    const salary_social_tax = salary * 0.3142;
+    const pension = parseInt(inputValues.pension.value);
+    const pension_social_tax = pension * 0.22;
+    const misc_expenses = parseInt(inputValues.expenses.value);
+    const vacation_days_per_year = parseInt(inputValues.vacation_days.value);
+    const working_days_in_year = 253 - vacation_days_per_year;
+
+    const expenditure_per_month = salary + salary_social_tax + pension + pension_social_tax + misc_expenses;
+
+    const save_per_working_day = expenditure_per_month / working_days_in_year;
+
+    const to_save_each_month = save_per_working_day * vacation_days_per_year;
+
+    return to_save_each_month;
 }
 
 document.querySelectorAll('.info')
